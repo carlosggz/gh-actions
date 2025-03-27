@@ -31,3 +31,21 @@ tasks.named('test') {
 jar {
 	archiveClassifier = ''
 }
+
+publishing {
+	repositories {
+		maven {
+			name = "Github"
+			url = uri("https://maven.pkg.github.com/carlosggz/gh-actions")
+			credentials {
+				username = findProperty("github.username")
+				password = findProperty("github.token")
+			}
+		}
+	}
+	publications {
+		bootJava(MavenPublication) {
+			artifact bootJar
+		}
+	}
+}
