@@ -38,8 +38,8 @@ publishing {
 			name = "Github"
 			url = uri("https://maven.pkg.github.com/carlosggz/gh-actions")
 			credentials {
-				username = findProperty("github.username")
-				password = findProperty("github.token")
+				username = System.getenv("USERNAME")
+				password = System.getenv("TOKEN")
 			}
 		}
 	}
