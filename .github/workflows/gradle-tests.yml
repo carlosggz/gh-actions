@@ -1,4 +1,4 @@
-name: Tests and publish
+name: Tests
 
 on:
   push:
@@ -28,9 +28,3 @@ jobs:
 
     - name: Test with Gradle
       run: ./gradlew test
-
-    - name: Publish to GitHub Packages
-      run: ./gradlew publish
-      env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
