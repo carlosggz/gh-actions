@@ -80,18 +80,18 @@ jobs:
 #          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
 #          subject-digest: ${{ steps.push.outputs.digest }}
 #          push-to-registry: true
-
-      - name: Create Release
-        id: create_release
-        uses: ncipollo/release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag: ${{ steps.update_release.outputs.current_version }}
-          name: Release ${{ steps.update_release.outputs.current_version }}
-          body: New release ${{ steps.update_release.outputs.current_version }} details
-          draft: false
-          prerelease: false
+#
+#      - name: Create Release
+#        id: create_release
+#        uses: ncipollo/release-action@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag: ${{ steps.update_release.outputs.current_version }}
+#          name: Release ${{ steps.update_release.outputs.current_version }}
+#          body: New release ${{ steps.update_release.outputs.current_version }} details
+#          draft: false
+#          prerelease: false
 
       - name: Update version and push to repository
         run: |
