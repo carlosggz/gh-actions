@@ -103,5 +103,6 @@ jobs:
           git commit -m "Generated release ${CURRENT_VERSION}"
           NEW_VERSION="${CURRENT_VERSION}-SNAPSHOT"
           sed -i -e "s/${CURRENT_VERSION}/${NEW_VERSION}/g" ./build.gradle
+          git add .
           git commit -m "Generated version ${NEW_VERSION}"
           git push
