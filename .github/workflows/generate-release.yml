@@ -22,6 +22,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+          fetch-depth: 0             # otherwise, you will fail to push refs to dest repo
 
       - name: Update release
         id: update_release
@@ -93,16 +96,23 @@ jobs:
 #          draft: false
 #          prerelease: false
 
-      - name: Update version and push to repository
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: Generated release ${{ steps.update_release.outputs.current_version }}
+
+      - name: Update snapshot version
+        id: snapshot
         run: |
-          git config --global user.name 'Automatic Release'
-          git config --global user.email 'automatic-release@users.noreply.github.com'
           source ./scripts/functions.sh
           CURRENT_VERSION=$(get_version)
-          git add .
-          git commit -m "Generated release ${CURRENT_VERSION}"
           NEW_VERSION="${CURRENT_VERSION}-SNAPSHOT"
           sed -i -e "s/${CURRENT_VERSION}/${NEW_VERSION}/g" ./build.gradle
-          git add .
-          git commit -m "Generated version ${NEW_VERSION}"
-          git push
+          echo "snapshot_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: Generated snapshot ${{ steps.snapshot.outputs.snapshot_version }}
